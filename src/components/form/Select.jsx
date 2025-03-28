@@ -7,11 +7,12 @@ function Select({text, name, id, handlerChange}) {
             <label htmlFor={name}>{text}</label>
 
             <select name={name} id={id} onChange={handlerChange}>
-                <option value="">Selecione uma categoria</option>
-                <option value="">Ficção cientifica</option>
-                <option value="">Fantasia heroica</option>
-                <option value="">Suspense</option>
-                <option value="">Terror</option>
+                <option value="0">Selecione uma categoria</option>
+                <option value="3">Ficção cientifica</option>
+                <option value="4">Fantasia heroica</option>
+                <option value="5">Romance</option>
+                <option value="6">Distopia</option>
+                <option value="7">Infantil</option>
             </select>
         </div>
     )

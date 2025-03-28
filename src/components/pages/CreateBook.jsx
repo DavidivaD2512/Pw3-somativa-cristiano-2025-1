@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import style from './CreateBook.module.css'
 
 import Input from '../form/Input'
@@ -8,20 +8,42 @@ import Button from '../form/Button'
 
 const CreateBook = ()=>{
 
-    const [book, setBook] = useState({})
+    const [book, setBook] = useState({});
+
+    const [categories, setCategories] = useState({});
 
     function handlerChangeBook(event) {
-        setBook({...book, [event.target.name] : event.target.value})
+        setBook({...book, [event.target.name] : event.target.value});
+        console.log(book);
     }
 
     function handlerChangeCategory(event) {
-        setBook({...book, category : event.target.options[event.target.selectedIndex].text}) 
+        setBook({...book, cod_categoria : event.target.options[event.target.selectedIndex].text}) ;
+        console.log(book)
     }
 
     function submit(event) {
         event.preventDefault();
-        console.log(book)
+        console.log(book);
     }
+
+    useEffect(()=> {
+        fetch('http://127.0.0.1:5000/listagemLivros', {
+            method: 'GET',
+            headers: {
+                'Contet-Type': 'application/json',
+                'Acess-Control-Allow-Origin': '*',
+                'Acess-Control-Allow-Headers': '*'
+            }
+            
+        }).then((response) => 
+            response.json()
+        ).then((categories) => {
+            console.log('Teste' + categories)
+        }).catch((error) => {
+            console.log('ERROR: ' + error)
+        });
+    }, []);
 
     return(
 
@@ -34,8 +56,8 @@ const CreateBook = ()=>{
                 <Input 
                     text='Nome do livro'
                     type='text'
-                    name='txt_livro'
-                    id='txt_livro'
+                    name='nome_livro'
+                    id='nome_livro'
                     placeholder='Digite o nome do livro'
                     handlerChange={handlerChangeBook}
                 />
@@ -43,8 +65,8 @@ const CreateBook = ()=>{
                 <Input 
                     text='Autor do livro'
                     type='text'
-                    name='txt_autor'
-                    id='txt_autor'
+                    name='autor_livro'
+                    id='autor_livro'
                     placeholder='Digite o nome do autor livro'
                     handlerChange={handlerChangeBook}
                 />
@@ -53,15 +75,15 @@ const CreateBook = ()=>{
                 <Input 
                     text='Descrição do livro'
                     type='text'
-                    name='txt_descricao'
-                    id='txt_descricao'
+                    name='descricao_livro'
+                    id='descricao_livro'
                     placeholder='Digite a descrição do livro'
                     handlerChange={handlerChangeBook}
                 />
 
                 <Select 
-                    name='slc_categoria' 
-                    id='slc_categoria'
+                    name='cod_categoria' 
+                    id='cod_categoria'
                     text='Categoria do livro' 
                     handlerChange={handlerChangeCategory}
                 />
